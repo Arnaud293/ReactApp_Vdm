@@ -16,6 +16,7 @@ const SignUp = () => {
                 await userAuth.user.updateProfile({
                     displayName
                 })
+                window.location.reload();
             });
         }
         catch(error){
