@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Post = ({post, user}) => {
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [editMessage, setEditMessage] = useState(null);
 
     const dateFormater = (date) =>{
         let days = Math.floor((new Date() - new Date(date)) / (1000 * 3600 * 24));
@@ -28,12 +31,16 @@ const Post = ({post, user}) => {
                 </div>
                 {post.authorId === user?.uid && (
                 <div className="right-part">
-                    <span><i className="fa-solid fa-pen-to-square"></i></span>
+                    <span onClick={() => setIsEditing(!isEditing)}><i className="fa-solid fa-pen-to-square"></i></span>
                     <span>delete</span>
                 </div>
                 )}
             </div>
-            <p>{post.message}</p>
+            {isEditing ? (
+                <textarea autoFocus value={editMessage ? editMessage : post.message} onChange={(e) => setEditMessage(e.target.value)}></textarea>
+            ) :(
+            <p>{editMessage ? editMessage : post.message}</p>
+            )}
         </div>
         
     );
