@@ -1,9 +1,19 @@
+import { doc, updateDoc } from 'firebase/firestore';
 import React, { useState } from 'react';
+import { db } from '../utils/firebase.config';
 
 const Post = ({post, user}) => {
 
     const [isEditing, setIsEditing] = useState(false);
     const [editMessage, setEditMessage] = useState(null);
+
+    const handleEdit = () => {
+        setIsEditing(false);
+
+        if(editMessage){
+        updateDoc(doc(db, "posts", post.id), {message : editMessage})
+        }
+    }
 
     const dateFormater = (date) =>{
         let days = Math.floor((new Date() - new Date(date)) / (1000 * 3600 * 24));
@@ -37,7 +47,10 @@ const Post = ({post, user}) => {
                 )}
             </div>
             {isEditing ? (
+                <>
                 <textarea autoFocus value={editMessage ? editMessage : post.message} onChange={(e) => setEditMessage(e.target.value)}></textarea>
+                <button className="edit-btn" onClick={() => handleEdit()}>Valider</button>
+                </>
             ) :(
             <p>{editMessage ? editMessage : post.message}</p>
             )}
