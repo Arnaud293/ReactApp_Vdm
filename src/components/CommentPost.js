@@ -2,6 +2,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
 import React, { useRef, useState } from 'react';
 import { auth, db } from '../utils/firebase.config';
+import CommentCard from './CommentCard';
 
 const CommentPost = ({post}) => {
 
@@ -42,7 +43,9 @@ const CommentPost = ({post}) => {
     return (
         <div className="comment-container">
             <h5 className="comment-title">Commentaires</h5>
-
+            {post.comments && post.comments.map((comment, index) => (
+                <CommentCard key={index} comment={comment}/>
+            ))}
             {user ? (
                 <form onSubmit={(e) => handleComment(e)}>
                     <textarea placeholder='Ecrire un commentaire' ref={theComment}></textarea>
