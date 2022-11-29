@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ConnectModal from './components/ConnectModal';
 import {onAuthStateChanged, signOut} from 'firebase/auth';
-import { auth } from '../src/utils/firebase.config';
+import { auth, db } from '../src/utils/firebase.config';
 import CreatePost from './components/CreatePost';
+import { getDocs, collection } from 'firebase/firestore';
+import Post from './components/Post';
 
 const App = () => {
 
   const [user, setUser] = useState(null);
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    getDocs(collection(db, "posts")).then(res => setPosts(res.docs.map((doc) => ({...doc.data(), id:doc.id}))))
+  },[])
 
   onAuthStateChanged(auth, (currentUser) =>{
       setUser(currentUser);
@@ -29,7 +36,13 @@ const App = () => {
         {user ? (<CreatePost uid={user.uid} displayName={user.displayName}/>) :(<ConnectModal />)}
         
       </div>
-      <div className="posts-container"></div>
+      <div className="posts-container">
+        {posts.length > 0 && (
+          posts.map((post) => (
+            <Post post={post} key={post.id} user={user}/>
+          ))
+        )}
+      </div>
     </div>
   );
 };
