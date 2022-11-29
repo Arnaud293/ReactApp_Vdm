@@ -26,7 +26,7 @@ const App = () => {
             <button onClick={() => handleLogout()}><i className='fa-solid fa-arrow-right-from-bracket'></i></button>
           </div>
         )}
-        {user ? (<CreatePost />) :(<ConnectModal />)}
+        {user ? (<CreatePost uid={user.uid} displayName={user.displayName}/>) :(<ConnectModal />)}
         
       </div>
       <div className="posts-container"></div>

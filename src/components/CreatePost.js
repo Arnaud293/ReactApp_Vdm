@@ -1,6 +1,8 @@
 import React from 'react';
 
-const CreatePost = () => {
+const CreatePost = ({uid, displayName}) => {
+
+    console.log(uid, displayName);
     return (
         <div className="new-post-modal">
             <form>
