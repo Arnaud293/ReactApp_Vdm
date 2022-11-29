@@ -1,6 +1,7 @@
 import { doc, updateDoc } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { db } from '../utils/firebase.config';
+import Delete from './Delete';
 
 const Post = ({post, user}) => {
 
@@ -42,7 +43,7 @@ const Post = ({post, user}) => {
                 {post.authorId === user?.uid && (
                 <div className="right-part">
                     <span onClick={() => setIsEditing(!isEditing)}><i className="fa-solid fa-pen-to-square"></i></span>
-                    <span>delete</span>
+                    <Delete postId={post.id} />
                 </div>
                 )}
             </div>
