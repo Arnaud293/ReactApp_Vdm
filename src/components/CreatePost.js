@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import {useDispatch} from "react-redux";
-import {addPost} from '../actions/post.action';
+import {addPost, getPosts} from '../actions/post.action';
 
 const CreatePost = ({uid, displayName}) => {
 
@@ -16,8 +16,9 @@ const CreatePost = ({uid, displayName}) => {
             comments: null,
             date: Date.now()
         }
-        dispatch(addPost(data));
+        await dispatch(addPost(data));
         message.current.value = '';
+        dispatch(getPosts());
     }
 
     return (
